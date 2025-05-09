@@ -1,16 +1,13 @@
 // src/App.js
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+
+// MUI Components for layout
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useTheme } from "@mui/material/styles";
-import Container from '@mui/material/Container'; // Import Container
 
-// Your Common Components
 import Navbar from "./CommonPage/Navbar";
 import Footer from "./CommonPage/Footer";
-
-// Your Page Components
 import HomePage from "./pages/HomePage";
 import FavoritesPage from "./pages/FavouritesPage";
 import MoviePage from "./pages/MoviePage";
@@ -19,12 +16,9 @@ import AllMoviesPage from "./pages/AllMoviesPage";
 
 // Clerk Components
 import { SignIn, SignUp, UserProfile } from "@clerk/clerk-react";
-import ProtectedRoute from './components/ProtectedRoute'; // Assuming you have this
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const theme = useTheme();
-  const estimatedFooterHeight = 200; // Adjust as needed
-
   return (
     <BrowserRouter>
       <Box
@@ -37,19 +31,17 @@ function App() {
       >
         <CssBaseline />
         <Navbar />
+
+        {/* Main content area */}
         <Box
           component="main"
           sx={{
-            flexGrow: 1,
-            pt: { xs: 2, sm: 3 },
-            pb: `calc(${estimatedFooterHeight}px + ${theme.spacing(4)})`,
-            overflowY: "auto",
-            // Make this main Box a flex container to center its children (the routed pages)
-            // if they don't take up full width/height themselves.
-            display: 'flex',
-            flexDirection: 'column', // So content within pages stacks normally
-            // alignItems: 'center', // This would center horizontally if pages are narrower than container
-            // justifyContent: 'center', // This would center vertically if pages are shorter
+            flexGrow: 1, // <<<< This makes the main content expand, pushing footer down
+            pt: { xs: 2, sm: 3 }, // Padding top for content below navbar
+            pb: { xs: 3, sm: 4 }, // General padding at the bottom of the content, NOT for fixed footer
+            overflowY: "auto", // Allows main content itself to scroll if very long
+            display: "flex", // To allow centering of Clerk components if they are direct children
+            flexDirection: "column",
           }}
         >
           <Routes>
@@ -62,36 +54,46 @@ function App() {
             <Route
               path="/sign-in/*"
               element={
-                <Box // Centering wrapper for the Sign In component
+                <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',    // Center horizontally
-                    justifyContent: 'center', // Center vertically
-                    flexGrow: 1,              // Allow it to take available space
-                    width: '100%',            // Ensure it can use full width for centering
-                    py: 4                     // Add some vertical padding
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexGrow: 1,
+                    width: "100%",
+                    py: 4,
                   }}
                 >
-                  <SignIn routing="path" path="/sign-in" signUpUrl="/sign-up" afterSignInUrl="/" />
+                  <SignIn
+                    routing="path"
+                    path="/sign-in"
+                    signUpUrl="/sign-up"
+                    afterSignInUrl="/"
+                  />
                 </Box>
               }
             />
             <Route
               path="/sign-up/*"
               element={
-                <Box // Centering wrapper for the Sign Up component
+                <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
                     flexGrow: 1,
-                    width: '100%',
-                    py: 4
+                    width: "100%",
+                    py: 4,
                   }}
                 >
-                  <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" afterSignUpUrl="/" />
+                  <SignUp
+                    routing="path"
+                    path="/sign-up"
+                    signInUrl="/sign-in"
+                    afterSignUpUrl="/"
+                  />
                 </Box>
               }
             />
@@ -99,15 +101,14 @@ function App() {
               path="/user-profile/*"
               element={
                 <ProtectedRoute>
-                  <Box // Optional centering wrapper for User Profile
+                  <Box
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      // justifyContent: 'center', // Usually profile starts at top
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                       flexGrow: 1,
-                      width: '100%',
-                      py: 4
+                      width: "100%",
+                      py: 4,
                     }}
                   >
                     <UserProfile path="/user-profile" routing="path" />
@@ -123,9 +124,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
+           
           </Routes>
         </Box>
+
+       
         <Footer />
       </Box>
     </BrowserRouter>

@@ -9,14 +9,8 @@ import { alpha } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-import MovieCard from '../components/MovieCard'; // Assuming your MUI MovieCard is ready
-// import { Movie } from '../types'; // Assuming Movie type definition
+import MovieCard from '../components/MovieCard';
 
-// interface CarouselProps {
-//   title: string;
-//   movies: Movie[];
-//   cardSize?: 'small' | 'medium' | 'large';
-// }
 
 const Carousel = ({ title, movies, cardSize = 'medium' }) => {
   const containerRef = useRef(null);
@@ -24,29 +18,29 @@ const Carousel = ({ title, movies, cardSize = 'medium' }) => {
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const imdbYellow = '#F5C518';
-  const arrowButtonBg = '#1F1F1F'; // From your example
-  const arrowButtonDisabledBg = '#1F1F1F'; // Can be same or slightly different
-  const arrowButtonDisabledColor = 'grey.600'; // MUI theme color
-  const darkBgFade = '#121212'; // For the side fade
+  const arrowButtonBg = '#1F1F1F'; 
+  const arrowButtonDisabledBg = '#1F1F1F'; 
+  const arrowButtonDisabledColor = 'grey.600'; 
+  const darkBgFade = '#121212';
 
   const checkScrollability = useCallback(() => {
     const container = containerRef.current;
     if (container) {
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(container.scrollLeft < container.scrollWidth - container.clientWidth -1); // -1 for precision
+      setCanScrollRight(container.scrollLeft < container.scrollWidth - container.clientWidth -1); 
     }
   }, []);
 
   useEffect(() => {
     const container = containerRef.current;
-    checkScrollability(); // Initial check
+    checkScrollability(); 
 
     if (container) {
       container.addEventListener('scroll', checkScrollability);
-      window.addEventListener('resize', checkScrollability); // Re-check on resize
+      window.addEventListener('resize', checkScrollability); 
 
       // Check initial scrollability after movies are loaded and rendered
-      const timeoutId = setTimeout(checkScrollability, 100); // Small delay for layout to settle
+      const timeoutId = setTimeout(checkScrollability, 100); 
 
       return () => {
         container.removeEventListener('scroll', checkScrollability);
@@ -60,7 +54,7 @@ const Carousel = ({ title, movies, cardSize = 'medium' }) => {
   const scroll = (direction) => {
     const container = containerRef.current;
     if (container) {
-      const scrollAmount = container.clientWidth * 0.75; // Scroll 75% of visible width
+      const scrollAmount = container.clientWidth * 0.75; 
       container.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
@@ -69,7 +63,7 @@ const Carousel = ({ title, movies, cardSize = 'medium' }) => {
   };
 
   if (!movies || movies.length === 0) {
-    return null; // Don't render if no movies
+    return null;
   }
 
   return (
