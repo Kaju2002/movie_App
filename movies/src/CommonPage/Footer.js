@@ -181,9 +181,10 @@ const Footer = () => {
                 <CopyrightIcon sx={{ fontSize: '0.8rem', verticalAlign: 'text-bottom', mr: 0.5 }} />
                 {new Date().getFullYear()} Cine City by LoonsLab.
             </Typography>
-            <Typography variant="caption" sx={{ display: 'block', color: 'text.disabled'}}>
-            Movie data sourced from <Link color="inherit" href="https://www.themoviedb.org/" target="_blank" rel="noopener" sx={{fontWeight: 'medium'}}>TMDb</Link>. Demo project.
-            </Typography>
+            <Typography variant="caption" sx={{ display: 'block', color: 'text.disabled' }}>
+  Explore movies, discover favorites, and enjoy the magic of cinema — all in one place.
+</Typography>
+
         </Box>
       </Container>
     </AppBar>
