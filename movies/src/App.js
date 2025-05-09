@@ -1,69 +1,67 @@
 // src/App.js
-import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom'; // Removed unused imports
+import React from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-// MUI Components for layout (instead of Tailwind classes)
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline'; // Ensures consistent baseline
+// MUI Components for layout
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import { useTheme } from "@mui/material/styles"; // Import useTheme
+import { SignIn, SignUp, UserProfile } from "@clerk/clerk-react";
+import ProtectedRoute from './components/ProtectedRoute'; // You'll create this
 
 // Your Common Components
-import Navbar from './CommonPage/Navbar'; // Assuming path is correct
-import Footer from './CommonPage/Footer'; // Assuming path is correct
+import Navbar from "./CommonPage/Navbar";
+import Footer from "./CommonPage/Footer";
 
 // Your Page Components
-import HomePage from './pages/HomePage';
-// Removed MovieDetailsPage import as you use MoviePage
-import FavoritesPage from './pages/FavouritesPage'; // Corrected spelling based on your import
-import MoviePage from './pages/MoviePage';       // Using this based on your import
-import SearchPage from './pages/SearchPage';       // Using this based on your import
+import HomePage from "./pages/HomePage";
+import FavoritesPage from "./pages/FavouritesPage";
+import MoviePage from "./pages/MoviePage";
+import SearchPage from "./pages/SearchPage";
+import AllMoviesPage from "./pages/AllMoviesPage";
 
-// Assuming ThemeProvider is handled globally (e.g., in index.js or a wrapper context)
-
+// Main App component
 function App() {
-  // Define footer height (adjust based on your Footer's actual height)
-  // Check the minHeight of the Toolbar in your Footer.js (e.g., '48px', '64px')
-  const footerHeight = '48px';
+  const theme = useTheme(); // Access the theme object here
+
+  // --- DEFINE YOUR FOOTER'S ESTIMATED HEIGHT ---
+  // **TEST AND ADJUST THIS VALUE BASED ON YOUR ACTUAL FOOTER'S RENDERED HEIGHT.**
+  // For the content-rich footer, this might be around 180px to 220px or more.
+  const estimatedFooterHeight = 200; // pixels - EXAMPLE, PLEASE ADJUST!
 
   return (
-   <BrowserRouter>
-      {/* Use Box for flex layout and ensure theme background color is applied */}
-      <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-          bgcolor: 'background.default' // Apply theme background color
-        }}
-      >
-        <CssBaseline /> {/* Apply baseline styles */}
+    <BrowserRouter>
+      <Box sx={{ /* ... */ }}>
+        <CssBaseline />
         <Navbar />
-
-        {/* Main content area */}
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1, // Allows this Box to grow and take available space
-            // Add padding top/bottom as needed, but importantly padding bottom for fixed footer
-            pt: 2, // Example top padding
-            pb: `calc(${footerHeight} + ${theme => theme.spacing(2)})`, // Padding bottom = footer height + extra space
-            // Example: pb: 10 // if footer is 64px high (8*8) + 16px extra (2*8) = 80px total space
-          }}
-        >
+        <Box component="main" sx={{ /* ... */ }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* Changed route to use :id based on your MoviePage import */}
+            <Route path="/movies" element={<AllMoviesPage />} />
             <Route path="/movie/:id" element={<MoviePage />} />
             <Route path="/search" element={<SearchPage />} />
-            {/* Ensure path matches FavoritesPage route if needed */}
-            <Route path="/favorites" element={<FavoritesPage />} />
-            {/* Optional: Add a 404 Not Found Route */}
+
+            {/* Clerk Authentication Routes */}
+            <Route path="/sign-in/*" element={<SignIn routing="path" path="/sign-in" />} />
+            <Route path="/sign-up/*" element={<SignUp routing="path" path="/sign-up" />} />
+            <Route path="/user-profile/*" element={
+              <ProtectedRoute> {/* Protect this route */}
+                <UserProfile path="/user-profile" routing="path" />
+              </ProtectedRoute>
+            } />
+
+            {/* Protected Favorites Route */}
+            <Route path="/favorites" element={
+              <ProtectedRoute>
+                <FavoritesPage />
+              </ProtectedRoute>
+            } />
             {/* <Route path="*" element={<NotFoundPage />} /> */}
           </Routes>
         </Box>
-
-        {/* Render the fixed Footer component */}
         <Footer />
       </Box>
-   </BrowserRouter>
+    </BrowserRouter>
   );
 }
 

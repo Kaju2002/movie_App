@@ -225,7 +225,7 @@ const MoviePage = () => {
                   sx={{
                       mb: 1, display: { xs: 'none', md: 'flex' }, // Hide on mobile
                       bgcolor: alpha(theme.palette.common.white, 0.15),
-                      color: 'white', '&:hover': { bgcolor: alpha(theme.palette.common.white, 0.25) }
+                      color: 'black', '&:hover': { bgcolor: alpha(theme.palette.common.white, 0.25) }
                   }}
               > Watch Trailer </Button>
                {/* Desktop Add to Favorites Button */}
