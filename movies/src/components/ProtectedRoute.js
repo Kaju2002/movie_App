@@ -19,8 +19,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!isSignedIn) {
-    // Redirect them to the /sign-in page, but save the current location they were
-    // trying to go to so we can send them along after they login.
+   
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
   }
 
