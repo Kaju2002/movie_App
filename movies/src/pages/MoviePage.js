@@ -30,15 +30,6 @@ import {
 } from "../services/tmdbService";
 
 
-
-
-
-
-
-
-
-
-
 // Components
 import CastList from "../components/CastList";
 import Carousel from "../CommonPage/Corousel"; 
